@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарии</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<form action="" method="post" novalidate>
+    <div class="cont_form">
+        <h4>Оставьте отзыв о нашей работе</h4>
+        {{ form.hidden_tag() }}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div style="margin-top: 20px; margin-left: 20px; color: red; font-family: Arial;font-size: 20px; font-weight: bold;">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+                <p>{{ form.text.label }}</p>{{ form.text(class_="inp_txt") }}
+
+        <div class="buttons">
+        <input class="bot" type="submit" value="ОТПРАВИТЬ">
+        <button class="bot" type="button" onclick="window.location.href='{{ url_for ('main_page_view') }}';">НАЗАД</button>
+        </div>
+    </div>
+</form>
+<div class="com_all">
+{% for i in comments %}
+    <div class="com">
+    <p>{{ i.text }} - {{ i.user_username }} - {{ i.created_at.strftime('%d-%m-%Y') }}</p>
+    </div>
+{% endfor %}
+</div>
+</body>
+</html>
