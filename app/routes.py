@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_user
-from app import app, db
+from app import app
 from app.forms import LoginForm, RegistrationForm, CommentForm
 from app.models import *
 
@@ -23,12 +23,12 @@ def fud():
     title_page_fud = ["Лакомства", "Съешь меня", "Выпей меня"]
     return render_template('fud.html', a_treat=a_treat, pizza=pizza, drinks=drinks, title_page_fud=title_page_fud)
 
+
 @app.route('/film')
 def film():
     today = Today.query.all()
     title_page_today = "Посмотри меня"
     return render_template('film.html', today=today, title_page_today=title_page_today)
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -50,10 +50,12 @@ def login():
 def registration():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data,
-                    email=form.email.data,
-                    first_name=form.first_name.data,
-                    last_name=form.last_name.data)
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data
+        )
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -62,6 +64,7 @@ def registration():
 
 
 from flask_login import logout_user
+
 
 @app.route('/logout')
 def logout():

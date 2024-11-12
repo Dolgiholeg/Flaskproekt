@@ -1,10 +1,8 @@
-from sqlalchemy.orm import relationship
 from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import login
 from sqlalchemy import Column, DateTime, func
-from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -14,7 +12,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50))
-    comment = db.relationship('Comment', uselist=False, backref="user")
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -25,9 +22,11 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,6 +46,7 @@ class A_treat(db.Model):
     def __repr__(self):
         return f'<A_treat {self.title}>'
 
+
 class Pizza(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
@@ -58,6 +58,7 @@ class Pizza(db.Model):
     def __repr__(self):
         return f'<Pizza {self.title}>'
 
+
 class Drinks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
@@ -68,6 +69,7 @@ class Drinks(db.Model):
 
     def __repr__(self):
         return f'<Drinks {self.title}>'
+
 
 class Today(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -8,6 +8,8 @@ class LoginForm(FlaskForm):
     username = StringField('Имя пользователя', [DataRequired(message='Введите логин')])
     password = PasswordField('Пароль', [DataRequired(message='Введите пароль')])
     submit = SubmitField('ВХОД')
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', [DataRequired(message='Введите логин')])
     email = StringField('Адрес электронной почты', [DataRequired(message='Введите адрес электронной почты'),
@@ -28,6 +30,7 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Пожалуйста, используйте другой адрес электронной почты')
+
 
 class CommentForm(FlaskForm):
     text = TextAreaField('Текст', validators=[DataRequired()])
