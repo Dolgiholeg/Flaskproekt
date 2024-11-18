@@ -3,6 +3,7 @@ from flask_login import current_user, login_user
 from app import app
 from app.forms import LoginForm, RegistrationForm, CommentForm
 from app.models import *
+from flask_login import logout_user
 
 
 @app.route('/')
@@ -51,19 +52,16 @@ def registration():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
-            username=form.username.data,
-            email=form.email.data,
-            first_name=form.first_name.data,
-            last_name=form.last_name.data
+            username=form.username.data,  # type: ignore
+            email=form.email.data,  # type: ignore
+            first_name=form.first_name.data,  # type: ignore
+            last_name=form.last_name.data  # type: ignore
         )
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('main_page_view'))
     return render_template('registration.html', form=form)
-
-
-from flask_login import logout_user
 
 
 @app.route('/logout')

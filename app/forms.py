@@ -35,7 +35,3 @@ class RegistrationForm(FlaskForm):
 class CommentForm(FlaskForm):
     text = TextAreaField('Текст', validators=[DataRequired()])
     submit = SubmitField('Отправить')
-
-
-
-
